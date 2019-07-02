@@ -1,3 +1,46 @@
-struct Proc {
-    var text = "Hello, World!"
+import Foundation
+
+public final class Proc {
+    
+    private var _process: Process
+    
+    private var next: Proc? = nil
+    private var last: Proc { next?.last ?? self }
+    
+    public init(_ command: String, _ args: String...) {
+        _process = Process()
+        _process.executableURL = URL(fileURLWithPath: command)
+        _process.arguments = args
+    }
+    
+    public init(_ process: Process) {
+        _process = process
+    }
+    
+    public func runForStdout() -> String {
+        let pipe = Pipe()
+        last._process.standardOutput = pipe
+        runRecursively()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        return String(data: data, encoding: .utf8)!
+    }
+    
+    fileprivate func runRecursively() {
+        try! _process.run()
+        next?.runRecursively()
+    }
+    
+    public func pipe(to: Proc) -> Proc {
+        let currentLast = last
+        let newLast = to
+        
+        currentLast.next = newLast
+        let pipe = Pipe()
+        currentLast._process.standardOutput = pipe
+        newLast._process.standardInput = pipe
+        
+        return self
+    }
 }
+
+
