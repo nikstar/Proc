@@ -2,8 +2,8 @@
 
 Convinient process API for Swift.
 
-[x] Read standard output into a string
-[x] Pipe several commands together
+- [x] Read standard output into a string
+- [x] Pipe several commands together
 
 See `ProcExample` for working example.
 
