@@ -17,17 +17,17 @@ public final class Proc {
         _process = process
     }
     
-    public func runForStdout() -> String {
+    public func runForStdout() throws -> String {
         let pipe = Pipe()
         last._process.standardOutput = pipe
-        runRecursively()
+        try runRecursively()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         return String(data: data, encoding: .utf8)!
     }
     
-    fileprivate func runRecursively() {
-        try! _process.run()
-        next?.runRecursively()
+    fileprivate func runRecursively() throws {
+        try _process.run()
+        try next?.runRecursively()
     }
     
     public func pipe(to: Proc) -> Proc {

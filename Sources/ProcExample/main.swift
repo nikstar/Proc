@@ -1,13 +1,16 @@
 import Foundation
 import Proc
 
-let ls = Proc("/bin/ls")
-let sort = Proc("/usr/bin/sort", "-r")
+let ls = Proc("/usr/bin/env", "find", ".", "-type", "f")
+let sort = Proc("/usr/bin/sort", "-rh")
 let wc = Proc("/usr/bin/xargs", "wc", "-c")
 
-let output = ls
-    .pipe(to: sort)
-    .pipe(to: wc)
-    .runForStdout()
-print("OUTPUT START\n\(output)\nOUTPUT END")
-
+do {
+    let output = try ls
+        .pipe(to: wc)
+        .pipe(to: sort)
+        .runForStdout()
+    print("OUTPUT START\n\(output)\nOUTPUT END")
+} catch {
+    print(error.localizedDescription)
+}

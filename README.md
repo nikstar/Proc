@@ -22,7 +22,7 @@ let ls = Proc("/bin/ls")
 let sort = Proc("/usr/bin/sort", "-r")
 let wc = Proc("/usr/bin/xargs", "wc", "-c")
 
-let output = ls
+let output = try ls
     .pipe(to: sort)
     .pipe(to: wc)
     .runForStdout()
