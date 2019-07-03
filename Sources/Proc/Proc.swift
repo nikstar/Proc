@@ -24,14 +24,19 @@ public final class Proc {
     public func runForStdout() throws -> String {
         let pipe = Pipe()
         last._process.standardOutput = pipe
-        try runRecursively()
+        try run()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         return String(data: data, encoding: .utf8)!
     }
     
-    fileprivate func runRecursively() throws {
+    public func run() throws {
         try _process.run()
-        try next?.runRecursively()
+        try next?.run()
+    }
+    
+    public func waitUntilExit() {
+        _process.waitUntilExit()
+        next?.waitUntilExit()
     }
     
     public func pipe(to: Proc) -> Proc {
