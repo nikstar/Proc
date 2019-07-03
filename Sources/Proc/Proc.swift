@@ -7,7 +7,11 @@ public final class Proc {
     private var next: Proc? = nil
     private var last: Proc { next?.last ?? self }
     
-    public init(_ command: String, _ args: String...) {
+    public convenience init(_ command: String, _ args: String...) {
+        self.init(command, args)
+    }
+    
+    public init(_ command: String, _ args: [String]) {
         _process = Process()
         _process.executableURL = URL(fileURLWithPath: command)
         _process.arguments = args
