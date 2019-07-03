@@ -52,4 +52,16 @@ public final class Proc {
     }
 }
 
+extension Proc : CustomStringConvertible {
+    public var description: String {
+        let path = _process.executableURL?.path ?? "_"
+        let args = _process.arguments ?? []
+        var description = "Proc{ \(path) \(args)"
+        if let next = next {
+            description += " => \(next.description)"
+        }
+        description += " }"
+        return description
+    }
+}
 
