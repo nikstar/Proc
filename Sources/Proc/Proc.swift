@@ -7,11 +7,11 @@ public final class Proc {
     private var next: Proc? = nil
     private var last: Proc { next?.last ?? self }
     
-    public convenience init(_ command: String, _ args: String...) {
-        self.init(command, args)
+    public convenience init(_ path: String, _ args: String...) {
+        self.init(path, args)
     }
     
-    public init(_ command: String, _ args: [String]) {
+    public init(_ path: String, _ args: [String]) {
         _process = Process()
         _process.executableURL = URL(fileURLWithPath: command)
         _process.arguments = args
@@ -65,3 +65,14 @@ extension Proc : CustomStringConvertible {
     }
 }
 
+extension Proc {
+    convenience init(name: String, _ args: String...) {
+        self.init(name: name, args)
+    }
+    
+    convenience init(name: String, _ args: [String]) {
+        self.init("/usr/bin/env", [name] + args)
+        _process.environment = ProcessInfo.processInfo.environment
+        _process.environment!["PATH"]! = "/usr/local/bin:" + _process.environment!["PATH"]!
+    }
+}

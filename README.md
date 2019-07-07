@@ -27,3 +27,13 @@ let output = try ls
     .pipe(to: wc)
     .runForStdout()
 ```
+
+Default initializer takes absolute or relative path as first argument. Convinience initializer `init(name:)` takes the name of the tool and uses `env` behind the scenes. `/usr/local/bin` is added to `$PATH` enviroment variable.
+
+```swift
+let ffmpeg = Proc(name: "ffmpeg", "-version") 
+// same as Proc("/usr/bin/env", "ffmpeg", "-version") + modified $PATH
+
+try ffmpeg.run()
+ffmpeg.waitUntilExit()
+```
