@@ -7,10 +7,9 @@ let wc = Proc("/usr/bin/xargs", "wc", "-c")
 let ffmpeg = Proc(name: "ffmpeg", "-v")
 
 do {
-//    let p = ls
-//        .pipe(to: wc)
-//        .pipe(to: sort)
-    let p = ffmpeg
+    let p = ls
+        .pipe(to: wc)
+        .pipe(to: sort)    
     print(p)
     let output = try p.runForStdout()
     print("OUTPUT START\n\(output)\nOUTPUT END")

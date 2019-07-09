@@ -15,7 +15,7 @@ Add to your project via Swift package manager:
         .package("https://github.com/nikstar/Proc.git", .branch("master"))
 ```
 
-## Example
+## Examples
 
 ```swift
 let ls = Proc("/bin/ls")
@@ -36,4 +36,13 @@ let ffmpeg = Proc(name: "ffmpeg", "-version")
 
 try ffmpeg.run()
 ffmpeg.waitUntilExit()
+```
+
+Environment is inhereted from current process and can be modified using `environment`:
+
+```swift
+let srv = Proc(name: "myserver")
+    .environment { env in 
+        env["ACCESS_TOKEN"] = token
+    }
 ```
