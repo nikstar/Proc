@@ -1,9 +1,16 @@
 # Proc
 
-Convinient process API for Swift.
+Convenient process API for Swift.
+
+![Swift 5](https://img.shields.io/badge/swift-5-important)
+![Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Linux-lightgrey)
+![Swift Package Manager](https://img.shields.io/badge/spm-compatible-brightgreen)
+![release](https://img.shields.io/github/release/nikstar/Proc)
+![GitHub](https://img.shields.io/github/license/nikstar/Proc)
 
 - [x] Read standard output into a string
 - [x] Pipe several commands together
+- [x] Change environment
 
 See `ProcExample` for working example.
 
@@ -12,7 +19,7 @@ See `ProcExample` for working example.
 Add to your project via Swift package manager:
 
 ```
-        .package("https://github.com/nikstar/Proc.git", .branch("master"))
+        .package("https://github.com/nikstar/Proc.git", from: "1.0.0")
 ```
 
 ## Examples
@@ -28,7 +35,7 @@ let output = try ls
     .runForStdout()
 ```
 
-Default initializer takes absolute or relative path as first argument. Convinience initializer `init(name:)` takes the name of the tool and uses `env` behind the scenes. `/usr/local/bin` is added to `$PATH` enviroment variable.
+Default initializer takes absolute or relative path as first argument. Convenience initializer `init(name:)` takes the name of the tool and uses `env` behind the scenes. `/usr/local/bin` is added to `$PATH` enviroment variable.
 
 ```swift
 let ffmpeg = Proc(name: "ffmpeg", "-version") 
